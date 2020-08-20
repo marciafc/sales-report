@@ -1,0 +1,20 @@
+version: '3'
+services:
+  db:
+    image: postgres:12.2-alpine
+    container_name: sales-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: batch-db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - 5432:5432
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: "java -jar target/sales-report-1.0-SNAPSHOT.jar"
+    volumes:
+      - ./data:/app/data
